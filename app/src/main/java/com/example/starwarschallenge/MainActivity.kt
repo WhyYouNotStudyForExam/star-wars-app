@@ -10,6 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.starwarschallenge.presentation.characters.components.CharactersScreen
+import com.example.starwarschallenge.presentation.util.Screen
 import com.example.starwarschallenge.ui.theme.StarWarsChallengeTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,30 +22,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StarWarsChallengeTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    NavHost(navController = navController,
+                        startDestination = Screen.CharactersScreen.route
+                       ) {
+                        composable(route = Screen.CharactersScreen.route) {
+                            //CharactersScreen(navController = navController)
+                        }
+
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StarWarsChallengeTheme {
-        Greeting("Android")
     }
 }

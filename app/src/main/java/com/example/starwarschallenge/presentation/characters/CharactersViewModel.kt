@@ -4,13 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.starwarschallenge.domain.use_case.CharacterUseCases
+import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import com.example.starwarschallenge.presentation.characters.components.CharactersState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
+import javax.inject.Inject
 
-class CharactersViewModel(
-    private val characterUseCases: CharacterUseCases
+@HiltViewModel
+class CharactersViewModel @Inject constructor(
+    private val starwarsUseCases: StarwarsUseCases
 ) : ViewModel() {
 
     private val _state = mutableStateOf(CharactersState())
@@ -28,7 +31,7 @@ class CharactersViewModel(
     private fun getCharacters() {
         // TODO: check if there are no multiple flows
         getCharactersJob?.cancel()
-        getCharactersJob = characterUseCases.getCharactersUseCase()
+        getCharactersJob = starwarsUseCases.getCharactersUseCase()
             .launchIn(viewModelScope)
     }
 }

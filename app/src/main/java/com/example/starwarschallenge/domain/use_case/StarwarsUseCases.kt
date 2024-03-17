@@ -1,5 +1,5 @@
 package com.example.starwarschallenge.domain.use_case
 
-data class CharacterUseCases(
+data class StarwarsUseCases(
     val getCharactersUseCase: GetCharactersUseCase
 )
