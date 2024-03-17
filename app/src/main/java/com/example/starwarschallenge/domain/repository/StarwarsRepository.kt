@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface StarwarsRepository {
     fun getCharacters(): Flow<List<Character>>
+    fun getCharacterById(id: Any)
 }
