@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.starwarschallenge.presentation.character_details.components.CharacterDetailsScreen
 import com.example.starwarschallenge.presentation.characters.components.CharactersScreen
 import com.example.starwarschallenge.presentation.util.Screen
 import com.example.starwarschallenge.ui.theme.StarWarsChallengeTheme
@@ -26,13 +29,29 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController,
+                    NavHost(
+                        navController = navController,
                         startDestination = Screen.CharactersScreen.route
-                       ) {
+                    ) {
                         composable(route = Screen.CharactersScreen.route) {
                             CharactersScreen(navController = navController)
                         }
-
+                        composable(route = Screen.CharacterDetailsScreen.route +
+                                "?selectedCharacter={selectedCharacter}",
+                            arguments = listOf(
+                                navArgument(
+                                    name = "selectedCharacter",
+                                ) {
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) {
+                            val character = it.arguments?.getString("selectedCharacter") ?: ""
+                            CharacterDetailsScreen(
+                                navController = navController,
+                                character = character
+                            )
+                        }
                     }
                 }
             }

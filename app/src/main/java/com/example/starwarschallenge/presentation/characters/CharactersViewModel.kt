@@ -9,6 +9,7 @@ import com.example.starwarschallenge.presentation.characters.components.Characte
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +33,11 @@ class CharactersViewModel @Inject constructor(
         // TODO: check if there are no multiple flows
         getCharactersJob?.cancel()
         getCharactersJob = starwarsUseCases.getCharactersUseCase()
+            .onEach { characters ->
+                _state.value = state.value.copy(
+                    characters = characters
+                )
+            }
             .launchIn(viewModelScope)
     }
 }

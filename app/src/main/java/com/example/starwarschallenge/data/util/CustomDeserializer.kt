@@ -22,7 +22,7 @@ class CustomDeserializer : JsonDeserializer<Character> {
         val gender = jsonObject.get("gender").asString
         val homeworld = deserializeToListOrString(context, jsonObject.get("homeworld"))
         val wiki = jsonObject.get("wiki")?.asString
-        // Das Bildfeld wird ignoriert, da es auskommentiert ist
+        val image = jsonObject.get("image")?.asString
         val born = jsonObject.get("born")?.asString
         val bornLocation = jsonObject.get("bornLocation")?.asString
         val died = jsonObject.get("died")?.asInt
@@ -56,6 +56,7 @@ class CustomDeserializer : JsonDeserializer<Character> {
             gender,
             homeworld,
             wiki,
+            image,
             born,
             bornLocation,
             died,

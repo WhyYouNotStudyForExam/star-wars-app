@@ -2,6 +2,7 @@ package com.example.starwarschallenge.di
 
 import com.example.starwarschallenge.data.repository.StarwarsRepositoryImpl
 import com.example.starwarschallenge.domain.repository.StarwarsRepository
+import com.example.starwarschallenge.domain.use_case.GetCharacterUseCase
 import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import com.example.starwarschallenge.domain.use_case.GetCharactersUseCase
 import dagger.Module
@@ -24,7 +25,8 @@ object AppModule {
     @Singleton
     fun provideCharactersUseCases(repository: StarwarsRepository): StarwarsUseCases {
         return StarwarsUseCases(
-            getCharactersUseCase = GetCharactersUseCase(repository)
+            getCharactersUseCase = GetCharactersUseCase(repository),
+            getCharacterUseCase = GetCharacterUseCase(repository)
         )
     }
 }
