@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -62,9 +64,18 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.navigation:navigation-compose:2.7.3")
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-beta01")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    //implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    //kapt("androidx.hilt:hilt-compiler:1.0.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

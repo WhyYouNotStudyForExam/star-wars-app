@@ -17,7 +17,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStarwarsRepository() : StarwarsRepository {
-        return StarwarsRepositoryImpl();
+        return StarwarsRepositoryImpl()
     }
 
     @Provides

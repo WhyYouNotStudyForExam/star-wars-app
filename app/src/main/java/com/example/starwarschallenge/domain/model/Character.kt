@@ -10,7 +10,7 @@ data class Character(
     @SerializedName("gender") val gender: String,
     @SerializedName("homeworld") val homeworld: String?,
     @SerializedName("wiki") val wiki: String?,
-    @SerializedName("image") val image: String?,
+    //@SerializedName("image") val image: String?,
     @SerializedName("born") val born: Int?,
     @SerializedName("bornLocation") val bornLocation: String?,
     @SerializedName("died") val died: Int?,
