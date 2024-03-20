@@ -8,10 +8,10 @@ data class Character(
     @SerializedName("height") val height: Double?,
     @SerializedName("mass") val mass: Int?,
     @SerializedName("gender") val gender: String,
-    @SerializedName("homeworld") val homeworld: String?,
+    @SerializedName("homeworld") val homeworld: List<String>?,
     @SerializedName("wiki") val wiki: String?,
     //@SerializedName("image") val image: String?,
-    @SerializedName("born") val born: Int?,
+    @SerializedName("born") val born: String?,
     @SerializedName("bornLocation") val bornLocation: String?,
     @SerializedName("died") val died: Int?,
     @SerializedName("diedLocation") val diedLocation: String?,
@@ -19,7 +19,7 @@ data class Character(
     @SerializedName("hairColor") val hairColor: String?,
     @SerializedName("eyeColor") val eyeColor: String?,
     @SerializedName("skinColor") val skinColor: String?,
-    @SerializedName("cybernetics") val cybernetics: String?,
+    @SerializedName("cybernetics") val cybernetics: List<String>?,
     @SerializedName("affiliations") val affiliations: List<String>?,
     @SerializedName("masters") val masters: List<String>?,
     @SerializedName("apprentices") val apprentices: List<String>?,
@@ -33,5 +33,5 @@ data class Character(
     @SerializedName("class") val classType: String?,
     @SerializedName("sensorColor") val sensorColor: String?,
     @SerializedName("platingColor") val platingColor: String?,
-    @SerializedName("equipment") val equipment: String?
+    @SerializedName("equipment") val equipment: List<String>?
 )
