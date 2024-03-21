@@ -3,8 +3,8 @@ package com.example.starwarschallenge.di
 import com.example.starwarschallenge.data.repository.StarwarsRepositoryImpl
 import com.example.starwarschallenge.domain.repository.StarwarsRepository
 import com.example.starwarschallenge.domain.use_case.GetCharacterUseCase
-import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import com.example.starwarschallenge.domain.use_case.GetCharactersUseCase
+import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideStarwarsRepository() : StarwarsRepository {
+    fun provideStarwarsRepository(): StarwarsRepository {
         return StarwarsRepositoryImpl()
     }
 

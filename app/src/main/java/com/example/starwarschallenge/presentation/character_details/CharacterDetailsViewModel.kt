@@ -5,12 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.starwarschallenge.domain.model.Character
 import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import com.example.starwarschallenge.presentation.character_details.components.CharacterDetailsState
-import com.example.starwarschallenge.presentation.characters.components.CharactersState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,10 +15,11 @@ import javax.inject.Inject
 class CharacterDetailsViewModel @Inject constructor(
     private val starwarsUseCases: StarwarsUseCases,
     savedStateHandle: SavedStateHandle
-): ViewModel(){
+) : ViewModel() {
 
     private val _state = mutableStateOf(CharacterDetailsState())
     val state: State<CharacterDetailsState> = _state
+
     init {
         savedStateHandle.get<Int>("id")?.let { id ->
             viewModelScope.launch {

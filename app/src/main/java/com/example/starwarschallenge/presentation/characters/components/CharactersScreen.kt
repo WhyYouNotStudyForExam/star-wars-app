@@ -28,7 +28,7 @@ fun CharactersScreen(
                     .clickable {
                         navController.navigate(
                             Screen.CharacterDetailsScreen.route +
-                            "?selectedCharacter=${serializedCharacter(character)}"
+                                    "?selectedCharacter=${serializedCharacter(character)}"
                         )
                     })
         }

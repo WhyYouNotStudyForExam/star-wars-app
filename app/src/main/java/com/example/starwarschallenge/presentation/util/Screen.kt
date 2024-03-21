@@ -1,7 +1,6 @@
 package com.example.starwarschallenge.presentation.util
 
-sealed class Screen (val route: String)
-{
-    object CharactersScreen: Screen("characters_screen")
-    object CharacterDetailsScreen: Screen("character_details_screen")
+sealed class Screen(val route: String) {
+    data object CharactersScreen : Screen("characters_screen")
+    data object CharacterDetailsScreen : Screen("character_details_screen")
 }

@@ -16,7 +16,7 @@ class StarwarsRepositoryImpl(
         emit(apiService.getCharacters())
     }.flowOn(Dispatchers.IO)
 
-    override fun getCharacterById(id: Any): Character {
+    override fun getCharacterById(id: Int): Character {
         TODO("Not yet implemented")
     }
 }

@@ -25,13 +25,7 @@ class CharactersViewModel @Inject constructor(
         getCharacters()
     }
 
-    fun onEvent() {
-        getCharacters()
-    }
-
     private fun getCharacters() {
-        // TODO: check if there are no multiple flows
-        getCharactersJob?.cancel()
         getCharactersJob = starwarsUseCases.getCharactersUseCase()
             .onEach { characters ->
                 _state.value = state.value.copy(

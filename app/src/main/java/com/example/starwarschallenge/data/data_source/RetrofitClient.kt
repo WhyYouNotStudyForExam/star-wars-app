@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://akabab.github.io/starwars-api/"
 
-    val gson = GsonBuilder()
+    private val gson = GsonBuilder()
         .registerTypeAdapter(Character::class.java, CustomDeserializer())
         .create()
 
