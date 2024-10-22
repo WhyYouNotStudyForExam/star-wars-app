@@ -1,9 +1,11 @@
 package com.example.starwarschallenge.di
 
+import com.example.starwarschallenge.data.data_source.RetrofitClient.apiService
 import com.example.starwarschallenge.data.repository.StarwarsRepositoryImpl
 import com.example.starwarschallenge.domain.repository.StarwarsRepository
 import com.example.starwarschallenge.domain.use_case.GetCharacterUseCase
 import com.example.starwarschallenge.domain.use_case.GetCharactersUseCase
+import com.example.starwarschallenge.domain.use_case.LoadNextPageUseCase
 import com.example.starwarschallenge.domain.use_case.StarwarsUseCases
 import dagger.Module
 import dagger.Provides
@@ -18,7 +20,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStarwarsRepository(): StarwarsRepository {
-        return StarwarsRepositoryImpl()
+        return StarwarsRepositoryImpl(apiService)
     }
 
     @Provides
@@ -28,5 +30,12 @@ object AppModule {
             getCharactersUseCase = GetCharactersUseCase(repository),
             getCharacterUseCase = GetCharacterUseCase(repository)
         )
+    }
+
+    @Provides
+    fun provideLoadNextPageUseCase(
+        repository: StarwarsRepository
+    ): LoadNextPageUseCase {
+        return LoadNextPageUseCase(repository)
     }
 }

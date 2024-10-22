@@ -1,22 +1,33 @@
 package com.example.starwarschallenge.data.repository
 
-import com.example.starwarschallenge.data.data_source.RetrofitClient.apiService
+import android.util.Log
 import com.example.starwarschallenge.domain.model.Character
+import com.example.starwarschallenge.domain.repository.ApiService
 import com.example.starwarschallenge.domain.repository.StarwarsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 class StarwarsRepositoryImpl(
-
+    private val apiService: ApiService
 ) : StarwarsRepository {
+    private var currentPage = 1
 
-    override fun getCharacters(): Flow<List<Character>> = flow {
-        emit(apiService.getCharacters())
-    }.flowOn(Dispatchers.IO)
+    override fun getCharacters(): Flow<Result<List<Character>>> = flow {
+        val characters = apiService.getCharacters(page = currentPage)
+        Log.d("StarwarsRepository", "Fetched characters: ${characters.size}")
+        emit(Result.success(characters))
+        currentPage++ // Move to the next page after a successful fetch
+    }.catch { e ->  // Catch and handle exceptions here
+        Log.e("StarwarsRepository", "Error fetching characters: ${e.message}")
+        emit(Result.failure(e))
+    }
 
-    override fun getCharacterById(id: Int): Character {
+    override suspend fun getCharacterById(id: Int): Character {
         TODO("Not yet implemented")
+    }
+
+    fun resetPagination() {
+        currentPage = 1
     }
 }

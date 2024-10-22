@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class GetCharactersUseCase(
     private val repository: StarwarsRepository
 ) {
-    operator fun invoke(): Flow<List<Character>> {
+    operator fun invoke(): Flow<Result<List<Character>>> {
         return repository.getCharacters()
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,7 +34,7 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun CharactersScreen(
     navController: NavController,
-    viewModel: CharactersViewModel = hiltViewModel()
+    viewModel: CharactersViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
 
@@ -41,14 +43,15 @@ fun CharactersScreen(
             LoadingScreen()
         }
 
-        state.characters.isEmpty() -> {
+        state.characters.isEmpty() && !state.isLoading -> {
             EmptyCharactersScreen()
         }
 
         else -> {
             CharactersList(
                 characters = state.characters,
-                navController = navController
+                navController = navController,
+                onLoadMore = { viewModel.loadNextPage() }
             )
         }
     }
@@ -57,9 +60,15 @@ fun CharactersScreen(
 @Composable
 fun CharactersList(
     characters: List<Character>,
-    navController: NavController
+    navController: NavController,
+    onLoadMore: () -> Unit
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+    val listState = rememberLazyListState() // Track scroll state
+
+    LazyColumn(
+        state = listState, // Use the scroll state
+        modifier = Modifier.fillMaxSize()
+    ) {
         items(characters) { character ->
             CharacterItem(
                 character = character,
@@ -72,6 +81,13 @@ fun CharactersList(
                         )
                     }
             )
+        }
+    }
+
+    // Trigger pagination if scrolled to the bottom
+    LaunchedEffect(listState) {
+        if (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == characters.size - 1) {
+            onLoadMore()
         }
     }
 }

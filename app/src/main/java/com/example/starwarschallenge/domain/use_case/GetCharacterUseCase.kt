@@ -6,7 +6,7 @@ import com.example.starwarschallenge.domain.repository.StarwarsRepository
 class GetCharacterUseCase(
     private val repository: StarwarsRepository
 ) {
-    operator fun invoke(id: Int): Character {
+    suspend operator fun invoke(id: Int): Character {
         return repository.getCharacterById(id)
     }
 }
