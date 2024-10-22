@@ -34,4 +34,9 @@ class CharactersViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        getCharactersJob?.cancel()
+    }
 }
