@@ -17,17 +17,18 @@ class StarwarsRepositoryImpl(
         val characters = apiService.getCharacters(page = currentPage)
         Log.d("StarwarsRepository", "Fetched characters: ${characters.size}")
         emit(Result.success(characters))
-        currentPage++ // Move to the next page after a successful fetch
-    }.catch { e ->  // Catch and handle exceptions here
+        currentPage++
+    }.catch { e ->
         Log.e("StarwarsRepository", "Error fetching characters: ${e.message}")
         emit(Result.failure(e))
     }
 
     override suspend fun getCharacterById(id: Int): Character {
-        TODO("Not yet implemented")
-    }
-
-    fun resetPagination() {
-        currentPage = 1
+        return try {
+            val character = apiService.getCharacterById(id)
+            character ?: throw Exception("Character not found")
+        } catch (e: Exception) {
+            throw e
+        }
     }
 }

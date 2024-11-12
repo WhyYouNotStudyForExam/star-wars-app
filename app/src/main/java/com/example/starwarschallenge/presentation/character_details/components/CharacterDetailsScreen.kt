@@ -1,77 +1,87 @@
 package com.example.starwarschallenge.presentation.character_details.components
 
-import CustomDeserializer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.starwarschallenge.domain.model.Character
 import com.example.starwarschallenge.presentation.character_details.CharacterDetailsViewModel
-import com.google.gson.GsonBuilder
 
 @Composable
 fun CharacterDetailsScreen(
     navController: NavController,
-    character: String,
     viewModel: CharacterDetailsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    val characterDetails = deserializeCharacter(character)
-    val characterName = characterDetails.name
+
+    when {
+        state.isLoading -> {
+            LoadingScreen()
+        }
+
+        state.errorMessage != null -> {
+            ErrorScreen(errorMessage = state.errorMessage)
+        }
+
+        state.character != null -> {
+            CharacterDetailsContent(character = state.character)
+        }
+
+        else -> {
+            Text("No character found.")
+        }
+    }
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun ErrorScreen(errorMessage: String) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "Error: $errorMessage")
+    }
+}
+
+@Composable
+fun CharacterDetailsContent(character: Character) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(5.dp)
     ) {
-        Text(
-            text = characterName,
-            modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth(),
-            style = TextStyle(
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            ),
-            textAlign = TextAlign.Center
-        )
-        Text(text = characterDetails.height.toString())
-        Text(text = characterDetails.mass.toString())
-        Text(text = characterDetails.gender)
-        Text(text = formatList(characterDetails.homeworld))
-        Text(text = characterDetails.wiki.toString())
+        Text(text = "Name: ${character.name}", style = MaterialTheme.typography.headlineMedium)
         AsyncImage(
-            model = characterDetails.image.toString(),
-            contentDescription = "Portrait of $characterName",
+            model = character.image.toString(),
+            contentDescription = "Portrait of ${character.name}",
         )
-        Text(text = characterDetails.born.toString())
-        // Don't show in case of null
-        characterDetails.bornLocation?.let { Text(text = it) }
-    }
-}
-
-fun deserializeCharacter(character: String): Character {
-    val gson = GsonBuilder()
-        .registerTypeAdapter(Character::class.java, CustomDeserializer())
-        .create()
-
-    return gson.fromJson(character, Character::class.java)
-}
-
-fun formatList(list: Any?): String {
-    return when (list) {
-        is List<*> -> list.joinToString(separator = ", ") { it.toString() }
-        is String -> list
-        else -> ""
+        Text(text = "Height: ${character.height}", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Mass: ${character.mass}", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Gender: ${character.gender}", style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = "Homeworld: ${character.homeworld}",
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(text = "Wiki: ${character.wiki}", style = MaterialTheme.typography.bodyMedium)
     }
 }

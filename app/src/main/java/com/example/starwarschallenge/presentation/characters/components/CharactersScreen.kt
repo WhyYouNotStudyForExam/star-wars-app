@@ -77,7 +77,7 @@ fun CharactersList(
                     .clickable {
                         navController.navigate(
                             Screen.CharacterDetailsScreen.route +
-                                    "?selectedCharacter=${serializedCharacter(character)}"
+                                    "?id=${character.id}"
                         )
                     }
             )

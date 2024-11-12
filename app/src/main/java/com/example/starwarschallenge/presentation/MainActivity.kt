@@ -37,19 +37,15 @@ class MainActivity : ComponentActivity() {
                             CharactersScreen(navController = navController)
                         }
                         composable(route = Screen.CharacterDetailsScreen.route +
-                                "?selectedCharacter={selectedCharacter}",
+                                "?id={id}",
                             arguments = listOf(
-                                navArgument(
-                                    name = "selectedCharacter",
-                                ) {
-                                    type = NavType.StringType
+                                navArgument("id") {
+                                    type = NavType.IntType
                                 }
                             )
                         ) {
-                            val character = it.arguments?.getString("selectedCharacter") ?: ""
                             CharacterDetailsScreen(
-                                navController = navController,
-                                character = character
+                                navController = navController
                             )
                         }
                     }
