@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.starwarschallenge.domain.model.Character
 import com.example.starwarschallenge.presentation.character_details.CharacterDetailsViewModel
+import kotlin.math.abs
 
 @Composable
 fun CharacterDetailsScreen(
@@ -141,7 +142,9 @@ fun CharacterDetailsContent(character: Character) {
                     label = "Homeworld",
                     value = character.homeworld?.toString() ?: "Unknown"
                 )
-                CharacterAttribute(label = "Born", value = character.born ?: "Unknown")
+                CharacterAttribute(label = "Born", value = character.born?.let {
+                    it.toIntOrNull()?.let { abs(it).toString() + " BBY" } ?: it
+                } ?: "Unknown")
                 CharacterAttribute(
                     label = "Born Location",
                     value = character.bornLocation ?: "Unknown"
@@ -149,7 +152,9 @@ fun CharacterDetailsContent(character: Character) {
                 CharacterAttribute(label = "Died", value = character.died?.toString() ?: "Unknown")
                 CharacterAttribute(
                     label = "Died Location",
-                    value = character.diedLocation ?: "Unknown"
+                    value = character.died?.let { died ->
+                        if (died < 0) "${-died} BBY" else "$died ABY"
+                    } ?: "Unknown"
                 )
                 CharacterAttribute(label = "Species", value = character.species ?: "Unknown")
                 character.wiki?.let {
